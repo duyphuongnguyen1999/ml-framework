@@ -38,3 +38,54 @@ void base_model_init(BaseModel *model, size_t num_layers, size_t *layer_sizes)
     model->update = base_model_update;
     model->free = base_model_free;
 }
+
+// Forward Propagation
+void base_model_forward(void *self, float *input, float *output)
+{
+    BaseModel *model = (BaseModel *)self;
+    memcpy(output, input, model->layer_sizes[0] * sizeof(float));
+    // Implement the forward pass for a basic model
+    // This is a placeholder and should be customized for each derived model
+}
+
+// Backward Propagation
+void base_model_backward(void *self, float *input, float *output, float *grad_input, float *grad_output)
+{
+    BaseModel *model = (BaseModel *)self;
+    // Implement the backward pass (this is a placeholder)
+    // Should be customized for each derived model
+}
+
+// Weights and Biases Update
+void base_model_update(void *self, float learning_rate)
+{
+    BaseModel *model = (BaseModel *)self;
+    // Implement weight and bias updates (placeholder)
+    for (size_t i = 0; i < model->num_layers - 1; i++)
+    {
+        for (size_t j = 0; j < model->layer_sizes[i] * model->layer_sizes[i + 1]; j++)
+        {
+            model->weights[i][j] -= learning_rate * 0.01f; // Placeholder gradient
+        }
+        for (size_t j = 0; j < model->layer_sizes[i + 1]; j++)
+        {
+            model->biases[i][j] -= learning_rate * 0.01f; // Placeholder gradient
+        }
+    }
+}
+
+// Memory Management and Resource Cleanup
+// BaseModel Free
+void base_model_free(void *self)
+{
+    BaseModel *model = (BaseModel *)self;
+    for (size_t i = 0; i < model->num_layers - 1; i++)
+    {
+        free(model->weights[i]);
+        free(model->biases[i]);
+    }
+    free(model->weights);
+    free(model->biases);
+    free(model->layer_sizes);
+    free(model);
+}
