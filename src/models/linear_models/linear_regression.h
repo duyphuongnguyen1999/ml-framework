@@ -1,8 +1,9 @@
+// include/models/linear_regression.h
+
 #ifndef LINEAR_REGRESSION_H
 #define LINEAR_REGRESSION_H
 
-#include <stddef.h>
-#include <model.h>
+#include "model.h"
 
 // LinearRegression structure extending BaseModel
 typedef struct
@@ -11,4 +12,9 @@ typedef struct
     // Additional attributes for LinearRegressor
 } LinearRegression;
 
-#endif
+// Function prototype
+void linear_regression_init(LinearRegression *model, size_t input_size);
+void lienar_regression_predict(LinearRegression *model, float *input, float *output);
+void linear_regression_free(LinearRegression *model);
+
+#endif // LINEAR_REGRESSION_H
